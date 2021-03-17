@@ -11,14 +11,34 @@
 
 <body>
     <div class="d-flex container w-100 h-100">
-        <div class="col-4 text-center">
+        <div class="col-6 offset-3 text-center">
             <h3>Monolingo</h3>
-        </div>
-        <div class="col-8 text-center">
+            <p>We understand that learning a second language is hard. That's why we designed Monolingo, a video web app
+                with real-time translation, to help you communicate with people around the world, using your mother
+                language.
+            </p>
             <h3>Start using now!</h3>
             <p>Generate your random username to start video chat.</p>
+            <form action="/room">
+                <p id="username" name="username">Generated Username Here</p>
+                <button class="btn btn-success" id="dice">Generate New Username</button>
+                <button class="btn btn-success">Join Random Chat</button>
+            </form>
         </div>
     </div>
 </body>
+
+<script>
+    const dice = document.querySelector('#dice');
+    const adjs = ['Grumpy', 'Old', 'Angry', 'Silent'];
+    const animals = ['Cat', 'Dog', 'Duck', 'Chicken'];
+    dice.addEventListener('click', (event) => {
+        event.preventDefault();
+        const username = document.querySelector('#username');
+        const adj = adjs[Math.floor(Math.random() * adjs.length)];
+        const animal = animals[Math.floor(Math.random() * animals.length)];
+        username.innerHTML = adj + ' ' + animal;
+    })
+</script>
 
 </html>
