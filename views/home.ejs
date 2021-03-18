@@ -19,26 +19,15 @@
             </p>
             <h3>Start using now!</h3>
             <p>Generate your random username to start video chat.</p>
-            <form action="/room">
-                <p id="username" name="username">Generated Username Here</p>
+            <form action="/room/new" method="POST">
+                <input class="form-control mb-3" type="text" id="username" name="username" placeholder="Enter Your Name">
                 <button class="btn btn-success" id="dice">Generate New Username</button>
-                <button class="btn btn-success">Join Random Chat</button>
+                <button class="btn btn-success">Create a Room</button>
             </form>
         </div>
     </div>
 </body>
 
-<script>
-    const dice = document.querySelector('#dice');
-    const adjs = ['Grumpy', 'Old', 'Angry', 'Silent'];
-    const animals = ['Cat', 'Dog', 'Duck', 'Chicken'];
-    dice.addEventListener('click', (event) => {
-        event.preventDefault();
-        const username = document.querySelector('#username');
-        const adj = adjs[Math.floor(Math.random() * adjs.length)];
-        const animal = animals[Math.floor(Math.random() * animals.length)];
-        username.innerHTML = adj + ' ' + animal;
-    })
-</script>
+<script src="javascripts/home.js"></script>
 
 </html>
