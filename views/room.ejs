@@ -26,15 +26,22 @@
         <div class="col-6 text-center">
             <div class="card">
                 <div class="card-header">
-                    Bot
+                    <span id="user2">user2</span>
                 </div>
                 <div class="card-body">
-                    <img width="400px" src="https://cdn.pixabay.com/photo/2019/03/21/15/51/chatbot-4071274_1280.jpg" alt="chatbot">
+                    <video id="videoElement2" autoplay="true" width="400px"></video>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+
+    <script>
+        const roomId = "<%= roomId %>";
+        const username = "<%= username %>"
+    </script>
     <script src="/javascripts/room.js"></script>
 
 </body>

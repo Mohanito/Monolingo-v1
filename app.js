@@ -3,7 +3,10 @@ const app = express();
 
 // External JS Libraries
 const { v4: uuid } = require('uuid');
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
+// Application settings
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 // Specifies the root directory from which to serve static assets
@@ -13,6 +16,21 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
+
+// Socket.io
+io.on('connection', (socket) => {
+    console.log('Socket.io: A user connected');
+    socket.on('join-room', (roomId, username, peerId) => {
+        // A room is an arbitrary channel that sockets can join and leave. In this case, channel name = roomId
+        socket.join(roomId);
+        console.log(`Socket.io: ${username} (peerId: ${peerId}) joined room ${roomId}`);
+        socket.to(roomId).emit('user-connected', username, peerId, roomId); // broadcast
+
+        socket.on('disconnect', () => {
+            socket.to(roomId).emit('user-disconnected', username, peerId);
+        })
+    })
+})
 
 
 app.get('/', (req, res) => {
@@ -39,6 +57,6 @@ app.get('/room/:roomId', (req, res) => {
     res.render('room', { roomId, username });
 });
 
-app.listen('3000', () => {
+server.listen('3000', () => {
     console.log('Listening on port 3000...')
 });
