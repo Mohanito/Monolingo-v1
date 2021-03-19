@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Socket.io
 io.on('connection', (socket) => {
-    console.log('Socket.io: A user connected');
+    console.log('Socket.io: New user connection');
     socket.on('join-room', (roomId, username, peerId) => {
         // A room is an arbitrary channel that sockets can join and leave. In this case, channel name = roomId
         socket.join(roomId);
