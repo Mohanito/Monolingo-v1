@@ -9,31 +9,39 @@
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 </head>
 
-<body>
-    <h3>Chatroom <%= roomId %> </h3>
-    <a class="btn btn-success" href="/">Back to Homepage</a>
-    <div class="d-flex container">
-        <div class="col-6 text-center">
-            <div class="card">
-                <div class="card-header">
-                    <%= username %>
-                </div>
-                <div class="card-body">
-                    <video id="videoElement" autoplay="true" width="400px"></video>
+<body class="bg-dark">
+    <div class="d-flex container justify-content-center my-3">
+        <div>
+            <h3 class="text-center text-white">CHATROOM</h3>
+            <small class="text-center text-muted">Invite your friend with this link: <%= roomId %></small>
+        </div>
+    </div>
+    
+    <div class="d-flex container justify-content-center">
+        <div class="row row-cols-1 row-cols-md-2 g-5">
+            <div class="col">
+                <div class="card mx-auto bg-dark" style="width: 348px;"> <!--350-->
+                    <video id="videoElement" autoplay="true" width="348" height="261" style="background-color: black;"></video>
+                    <div class="card-img-overlay">
+                        <h6 class="card-title text-white"><%= username %></h6>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-6 text-center">
-            <div class="card">
-                <div class="card-header">
-                    <span id="user2">Stranger</span>
-                </div>
-                <div class="card-body">
-                    <video id="videoElement2" autoplay="true" width="400px"></video>
+            <div class="col">
+                <div class="card mx-auto bg-dark" style="width: 348px;">
+                    <video id="videoElement2" autoplay="true" width="348" height="261" style="background-color: black;"></video>
+                    <div class="card-img-overlay">
+                        <h6 class="card-title text-white"><%= username %></h6>
+                        <span id="user2" class="text-white">Stranger</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer class="d-flex container justify-content-center mt-5">
+        <a class="btn btn-success" href="/">Back to Homepage</a>
+    </footer>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
