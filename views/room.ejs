@@ -17,8 +17,8 @@
         </div>
     </div>
     
-    <div class="d-flex container justify-content-center">
-        <div class="row row-cols-1 row-cols-md-2 g-5">
+    <main class="d-flex container justify-content-center">
+        <div class="row row-cols-1 row-cols-md-2 g-5" id="video-list">
             <div class="col">
                 <div class="card mx-auto bg-dark" style="width: 348px;"> <!--350-->
                     <video id="videoElement" autoplay="true" width="348" height="261" style="background-color: black;"></video>
@@ -27,17 +27,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card mx-auto bg-dark" style="width: 348px;">
-                    <video id="videoElement2" autoplay="true" width="348" height="261" style="background-color: black;"></video>
-                    <div class="card-img-overlay">
-                        <h6 class="card-title text-white"><%= username %></h6>
-                        <span id="user2" class="text-white">Stranger</span>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
+    </main>
 
     <footer class="d-flex container justify-content-center mt-5">
         <a class="btn btn-success" href="/">Back to Homepage</a>

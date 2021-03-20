@@ -23,8 +23,8 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
         peer.on('call', (mediaConnection) => {
             mediaConnection.answer(stream);
-            onStream(mediaConnection);
-            onClose(mediaConnection);
+            onStream(mediaConnection, mediaConnection.peer);
+            onClose(mediaConnection, mediaConnection.peer);
             peerCalls[mediaConnection.peer] = mediaConnection;
         });
     })
@@ -40,25 +40,45 @@ socket.on('user-disconnected', (username, peerId) => {
 
 function callNewUser(username, peerId, stream) {
     const mediaConnection = peer.call(peerId, stream);
-    onStream(mediaConnection);
-    onClose(mediaConnection);
+    onStream(mediaConnection, peerId);
+    onClose(mediaConnection, peerId);
     peerCalls[peerId] = mediaConnection;
 };
 
-function onStream(mediaConnection) {
+function onStream(mediaConnection, peerId) {
     mediaConnection.on('stream', (remoteStream) => {
-        const video2 = document.querySelector("#videoElement2");
-        video2.srcObject = remoteStream;
-        // const user2 = document.querySelector("#user2");
-        // user2.innerHTML = username;
+        console.log(remoteStream);
+        if (!document.getElementById(`video-${peerId}`)) {
+            const column = document.createElement('div');
+            column.setAttribute('class', 'col')
+            column.id = `col-${peerId}`;
+            const card = document.createElement('div');
+            card.setAttribute('class', 'card mx-auto bg-dark');
+            card.setAttribute('style', 'width: 348px');
+            const newVideo = document.createElement('video');
+            newVideo.srcObject = remoteStream;
+            newVideo.autoplay = true;
+            newVideo.id = `video-${peerId}`;
+            newVideo.width = '348';
+            newVideo.height = '261';
+            const overlay = document.createElement('div');
+            overlay.setAttribute('class', 'card-img-overlay');
+            const overlayText = document.createElement('h6');
+            overlayText.setAttribute('class', 'card-title text-white');
+            overlayText.innerHTML = 'Random User';
+            overlay.append(overlayText);
+            const videoList = document.querySelector('#video-list');
+            videoList.append(column);
+            column.append(card);
+            card.append(newVideo);
+            card.append(overlay);
+        }
     });
 }
 
-function onClose(mediaConnection) {
+function onClose(mediaConnection, peerId) {
     mediaConnection.on('close', () => {
-        document.querySelector("#user2").innerHTML = 'Disconnected';
-        const video2 = document.querySelector("#videoElement2");
-        // FIXME: video2 remove or change src after disconnection
+        document.getElementById(`col-${peerId}`).remove();
     });
 }
 
@@ -79,4 +99,7 @@ function onClose(mediaConnection) {
             Finally, B receives A's video stream - mediaConnection.on('stream').
 
         *Firefox does not yet support mediaConnection.on('close').
+
+    Peer.js mediaConnection.on('stream') gets called twice if the stream contains 2 tracks: audio and video.
+    https://github.com/peers/peerjs/issues/609
 */
