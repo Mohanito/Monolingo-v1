@@ -47,32 +47,7 @@ function callNewUser(username, peerId, stream) {
 
 function onStream(mediaConnection, peerId) {
     mediaConnection.on('stream', (remoteStream) => {
-        console.log(remoteStream);
-        if (!document.getElementById(`video-${peerId}`)) {
-            const column = document.createElement('div');
-            column.setAttribute('class', 'col')
-            column.id = `col-${peerId}`;
-            const card = document.createElement('div');
-            card.setAttribute('class', 'card mx-auto bg-dark');
-            card.setAttribute('style', 'width: 348px');
-            const newVideo = document.createElement('video');
-            newVideo.srcObject = remoteStream;
-            newVideo.autoplay = true;
-            newVideo.id = `video-${peerId}`;
-            newVideo.width = '348';
-            newVideo.height = '261';
-            const overlay = document.createElement('div');
-            overlay.setAttribute('class', 'card-img-overlay');
-            const overlayText = document.createElement('h6');
-            overlayText.setAttribute('class', 'card-title text-white');
-            overlayText.innerHTML = 'Random User';
-            overlay.append(overlayText);
-            const videoList = document.querySelector('#video-list');
-            videoList.append(column);
-            column.append(card);
-            card.append(newVideo);
-            card.append(overlay);
-        }
+        appendVideo(remoteStream, peerId);
     });
 }
 
@@ -80,6 +55,34 @@ function onClose(mediaConnection, peerId) {
     mediaConnection.on('close', () => {
         document.getElementById(`col-${peerId}`).remove();
     });
+}
+
+function appendVideo(remoteStream, peerId) {
+    if (!document.getElementById(`video-${peerId}`)) {
+        const column = document.createElement('div');
+        column.setAttribute('class', 'col')
+        column.id = `col-${peerId}`;
+        const card = document.createElement('div');
+        card.setAttribute('class', 'card mx-auto bg-dark');
+        card.setAttribute('style', 'width: 348px');
+        const newVideo = document.createElement('video');
+        newVideo.srcObject = remoteStream;
+        newVideo.autoplay = true;
+        newVideo.id = `video-${peerId}`;
+        newVideo.width = '348';
+        newVideo.height = '261';
+        const overlay = document.createElement('div');
+        overlay.setAttribute('class', 'card-img-overlay');
+        const overlayText = document.createElement('h6');
+        overlayText.setAttribute('class', 'card-title text-white');
+        overlayText.innerHTML = 'Random User';
+        overlay.append(overlayText);
+        const videoList = document.querySelector('#video-list');
+        videoList.append(column);
+        column.append(card);
+        card.append(newVideo);
+        card.append(overlay);
+    }
 }
 
 /*
