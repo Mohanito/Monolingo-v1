@@ -1,8 +1,72 @@
 const socket = io();
 const peer = new Peer();
+var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 
 // An object where: key = peerId, value = mediaConnection
-let peerCalls = {};
+const peerCalls = {};
+// Keyboard-control helper
+let recognitionLocked = false; 
+
+// Speech-to-text with Web Speech API
+const recognition = new SpeechRecognition();
+recognition.continuous = false;
+recognition.lang = 'zh';
+recognition.interimResults = true;
+recognition.maxAlternatives = 1;
+
+window.addEventListener("keydown", function (event) {
+    if (!recognitionLocked && event.code == 'Space') 
+        recognition.start();
+}, true)
+
+document.querySelector('#record').addEventListener('click', () => {
+    if (!recognitionLocked) 
+        recognition.start();
+})
+
+recognition.onstart = () => {
+    console.log('Web Speech API: Recognition starts');
+    recognitionLocked = true;
+    document.querySelector('#record').innerHTML = 'Recording...';
+    document.querySelector('#record').classList.remove('btn-success');
+    document.querySelector('#record').classList.add('btn-danger');
+};
+
+recognition.onend = () => {
+    console.log('Web Speech API: Recognition ends');
+    recognitionLocked = false;
+    document.querySelector('#record').innerHTML = 'Start Speaking';
+    document.querySelector('#record').classList.remove('btn-danger');
+    document.querySelector('#record').classList.add('btn-success');
+};
+
+recognition.onresult = (event) => {
+    let result = event.results[0][0].transcript;
+    document.querySelector('#subtitle').textContent = result;
+}
+
+recognition.onnomatch = () => {
+    document.querySelector('#subtitle').textContent = 'Speech not recognized';
+}
+
+recognition.onspeechend = () => {
+    recognition.stop();
+}
+
+recognition.onerror = (event) => {
+    document.querySelector('#subtitle').textContent =
+        event.error == 'no-speech' ? 'No speech detected' : 'Error occurred in recognition: ' + event.error;
+    recognition.stop();
+}
+
+// Not used in this design b/c client-side bugs, but definitely should try after deploying.
+function restart(recognition) {
+    recognition.stop();
+    setTimeout(() => {
+        recognition.start();
+    }, 400);
+}
+
 
 // Peer.js & Video Initialization
 peer.on('open', (peerId) => {
@@ -84,6 +148,7 @@ function appendVideo(remoteStream, peerId) {
         card.append(overlay);
     }
 }
+
 
 /*
     Peer.js & Socket.io Logic:
