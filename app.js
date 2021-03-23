@@ -6,6 +6,9 @@ const { v4: uuid } = require('uuid');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+// Helper Scripts
+const { codeToLanguage, languageToCode } = require('./controllers/languages')
+
 // Application settings
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
@@ -20,14 +23,14 @@ app.use(express.urlencoded({ extended: true }));
 // Socket.io
 io.on('connection', (socket) => {
     console.log('Socket.io: New user connection');
-    socket.on('join-room', (roomId, username, peerId) => {
+    socket.on('join-room', (roomId, username, language, peerId) => {
         // A room is an arbitrary channel that sockets can join and leave. In this case, channel name = roomId
         socket.join(roomId);
         console.log(`Socket.io: ${username} (peerId: ${peerId}) joined room ${roomId}`);
-        socket.to(roomId).emit('user-connected', username, peerId, roomId); // broadcast
+        socket.to(roomId).emit('user-connected', username, language, peerId, roomId); // broadcast
 
-        socket.on('send-info', (username, peerId) => {
-            socket.to(roomId).emit('send-info', username, peerId);
+        socket.on('send-info', (username, language, peerId) => {
+            socket.to(roomId).emit('send-info', username, language, peerId);
         })
 
         socket.on('disconnect', () => {
@@ -49,16 +52,18 @@ app.get('/single', (req, res) => {
 // From 'Create a Room' button
 // Generate roomId; Pass username (in query) and roomId to chatroom middleware.
 app.post('/room/new', (req, res) => {
-    const { username } = req.body;
+    const { username, language } = req.body;
     const roomId = uuid();
-    res.redirect(`/room/${roomId}?username=${username}`);
+    res.redirect(`/room/${roomId}?username=${username}&language=${language}`);
 })
 
 // Renders chatroom view
 app.get('/room/:roomId', (req, res) => {
     const { roomId } = req.params;
     const username = req.query.username || 'Anonymous User';
-    res.render('room', { roomId, username });
+    const languageCode = req.query.language || 'en';
+    const language = codeToLanguage[languageCode];
+    res.render('room', { roomId, username, language, languageCode });
 });
 
 server.listen('3000', () => {

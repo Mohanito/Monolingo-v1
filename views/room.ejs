@@ -21,26 +21,18 @@
         <div class="row row-cols-1 row-cols-md-2 g-5" id="video-list">
             <div class="col">
                 <div class="card mx-auto bg-dark" style="width: 348px;"> <!--350-->
+                    <h6 class="card-title text-white"><%= username %></h6>
+                    <h6 class="card-title text-white">Speaks <%= language %></h6>
                     <video id="videoElement" autoplay="true" width="348" height="261" style="background-color: black;"></video>
                     <div class="card-img-overlay">
-                        <h6 class="card-title text-white"><%= username %></h6>
+                        <!-- <h6 class="card-title text-white"><%= username %></h6> -->
                         <p class="position-absolute bottom-0 text-white" id="subtitle"></p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-
-    <div class="d-flex container justify-content-center mt-3 text-white">
-        <div class="row">
-            <div class="col-6">
-                <label class="col-form-label" for="language">Select Your Language:</label>
-            </div>
-            <div class="col">
-                <%- include('partials/languageSelector') %>
-            </div>
-        </div>
-    </div>
+    
     <h6 class="text-center text-white mt-3">Click or Press Space to Start Speaking</h6>
 
     <div class="d-flex container justify-content-center mt-3">
@@ -59,9 +51,11 @@
 
     <script>
         const roomId = "<%= roomId %>";
-        const myUsername = "<%= username %>"
+        const myUsername = "<%= username %>";
+        const myLanguage = "<%= language %>";
+        const myLanguageCode = "<%= languageCode %>";
     </script>
-    <script src="/javascripts/room.js"></script>
+    <script src="/javascripts/room.js" type="module"></script>
 
 </body>
 

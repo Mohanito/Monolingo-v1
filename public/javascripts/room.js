@@ -12,7 +12,7 @@ let recognitionLocked = false;
 // Speech-to-text with Web Speech API
 const recognition = new SpeechRecognition();
 recognition.continuous = false;
-recognition.lang = 'zh';
+recognition.lang = myLanguageCode;
 recognition.interimResults = true;
 recognition.maxAlternatives = 1;
 
@@ -62,9 +62,9 @@ recognition.onerror = (event) => {
 }
 
 // Language Select
-document.querySelector('#language').addEventListener('change', (event) => {
-    recognition.lang = event.target.value;
-});
+// document.querySelector('#language').addEventListener('change', (event) => {
+//     recognition.lang = event.target.value;
+// });
 
 
 // Not used in this design b/c client-side bugs, but definitely should try after deploying.
@@ -78,7 +78,7 @@ function restart(recognition) {
 
 // Peer.js & Video Initialization
 peer.on('open', (peerId) => {
-    socket.emit('join-room', roomId, myUsername, peerId);
+    socket.emit('join-room', roomId, myUsername, myLanguage, peerId);
     myPeerId = peerId;
 });
 
@@ -89,10 +89,10 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         video.srcObject = stream;
         video.muted = true;
 
-        socket.on('user-connected', (username, peerId) => {
+        socket.on('user-connected', (username, language, peerId) => {
             console.log(`${username} (peerId: ${peerId}) has joined the room`);
-            updatePeerInfo(username, peerId);
-            socket.emit('send-info', myUsername, myPeerId);
+            updatePeerInfo(username, language, peerId);
+            socket.emit('send-info', myUsername, myLanguage, myPeerId);
             callNewUser(peerId, stream);
         });
 
@@ -107,8 +107,8 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         console.log('Failed to get local stream', error);
     })
 
-socket.on('send-info', (username, peerId) => {
-    updatePeerInfo(username, peerId);
+socket.on('send-info', (username, language, peerId) => {
+    updatePeerInfo(username, language, peerId);
 })
 
 socket.on('user-disconnected', (username, peerId) => {
@@ -117,9 +117,10 @@ socket.on('user-disconnected', (username, peerId) => {
         peerCalls[peerId].close();
 });
 
-function updatePeerInfo(username, peerId) {
+function updatePeerInfo(username, language, peerId) {
     peerInfo[peerId] = {
-        username: username
+        username,
+        language
     };
 }
 
@@ -150,23 +151,28 @@ function appendVideo(remoteStream, peerId) {
         const card = document.createElement('div');
         card.setAttribute('class', 'card mx-auto bg-dark');
         card.setAttribute('style', 'width: 348px');
+        const usernameHeader = document.createElement('h6');
+        usernameHeader.setAttribute('class', 'card-title text-white');
+        usernameHeader.innerHTML = peerInfo[peerId].username;
+        const languageHeader = document.createElement('h6');
+        languageHeader.setAttribute('class', 'card-title text-white');
+        languageHeader.innerHTML = 'Speaks ' + peerInfo[peerId].language;
         const newVideo = document.createElement('video');
         newVideo.srcObject = remoteStream;
         newVideo.autoplay = true;
         newVideo.id = `video-${peerId}`;
         newVideo.width = '348';
         newVideo.height = '261';
-        const overlay = document.createElement('div');
-        overlay.setAttribute('class', 'card-img-overlay');
-        const overlayText = document.createElement('h6');
-        overlayText.setAttribute('class', 'card-title text-white');
-        overlayText.innerHTML = peerInfo[peerId].username;
-        overlay.append(overlayText);
+        // const overlay = document.createElement('div');
+        // overlay.setAttribute('class', 'card-img-overlay');
+        // overlay.append(overlayText);
         const videoList = document.querySelector('#video-list');
         videoList.append(column);
         column.append(card);
+        card.append(usernameHeader);
+        card.append(languageHeader);
         card.append(newVideo);
-        card.append(overlay);
+        // card.append(overlay);
     }
 }
 
