@@ -59,6 +59,12 @@ recognition.onerror = (event) => {
     recognition.stop();
 }
 
+// Language Select
+document.querySelector('#language').addEventListener('change', (event) => {
+    recognition.lang = event.target.value;
+});
+
+
 // Not used in this design b/c client-side bugs, but definitely should try after deploying.
 function restart(recognition) {
     recognition.stop();
