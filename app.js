@@ -26,6 +26,10 @@ io.on('connection', (socket) => {
         console.log(`Socket.io: ${username} (peerId: ${peerId}) joined room ${roomId}`);
         socket.to(roomId).emit('user-connected', username, peerId, roomId); // broadcast
 
+        socket.on('send-info', (username, peerId) => {
+            socket.to(roomId).emit('send-info', username, peerId);
+        })
+
         socket.on('disconnect', () => {
             socket.to(roomId).emit('user-disconnected', username, peerId);
         })
