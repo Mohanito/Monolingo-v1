@@ -31,7 +31,11 @@ io.on('connection', (socket) => {
 
         socket.on('send-info', (username, language, peerId) => {
             socket.to(roomId).emit('send-info', username, language, peerId);
-        })
+        });
+
+        socket.on('send-message', (username, message) => {
+            socket.to(roomId).emit('broadcast-message', username, message);
+        });
 
         socket.on('disconnect', () => {
             socket.to(roomId).emit('user-disconnected', username, peerId);

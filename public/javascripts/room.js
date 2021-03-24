@@ -45,6 +45,12 @@ recognition.onend = () => {
 recognition.onresult = (event) => {
     let result = event.results[0][0].transcript;
     document.querySelector('#subtitle').textContent = result;
+    if (event.results[0].isFinal) {
+        const message = document.createElement('p');
+        message.textContent = `${myUsername}: ${result}`;
+        document.querySelector('#message-board').append(message);
+        socket.emit('send-message', myUsername, result);
+    }
 }
 
 recognition.onnomatch = () => {
@@ -109,6 +115,12 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 
 socket.on('send-info', (username, language, peerId) => {
     updatePeerInfo(username, language, peerId);
+})
+
+socket.on('broadcast-message', (username, message) => {
+    const msg = document.createElement('p');
+    msg.textContent = `${username}: ${message}`;
+    document.querySelector('#message-board').append(msg);
 })
 
 socket.on('user-disconnected', (username, peerId) => {
