@@ -5,6 +5,8 @@ const app = express();
 const { v4: uuid } = require('uuid');
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
+const translate = require('translate');
+translate.engine = 'libre';
 
 // Helper Scripts
 const { codeToLanguage, languageToCode } = require('./controllers/languages')
@@ -16,6 +18,7 @@ app.set('views', __dirname + '/views');
 app.use(express.static('public'));
 // Built-in middleware that parses incoming requests with urlencoded payloads
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 
 
@@ -69,6 +72,13 @@ app.get('/room/:roomId', (req, res) => {
     const language = codeToLanguage[languageCode];
     res.render('room', { roomId, username, language, languageCode });
 });
+
+app.post('/translate', async (req, res) => {
+    // console.log(req.body);
+    const { message, language } = req.body;
+    const text = await translate(message, language);
+    res.send(text);
+})
 
 server.listen('3000', () => {
     console.log('Listening on port 3000...')

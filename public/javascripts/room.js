@@ -117,10 +117,21 @@ socket.on('send-info', (username, language, peerId) => {
     updatePeerInfo(username, language, peerId);
 })
 
-socket.on('broadcast-message', (username, message) => {
+socket.on('broadcast-message', async (username, message) => {
     const msg = document.createElement('p');
     msg.textContent = `${username}: ${message}`;
     document.querySelector('#message-board').append(msg);
+    const msgTranslated = document.createElement('p');
+    const response = await fetch('/translate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'    // 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ message, language: myLanguageCode }) // body data type must match "Content-Type" header
+    });
+    const result = await response.text();
+    msgTranslated.textContent = `${username}: ${result}`;
+    document.querySelector('#message-board').append(msgTranslated);
 })
 
 socket.on('user-disconnected', (username, peerId) => {
