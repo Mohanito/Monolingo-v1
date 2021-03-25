@@ -48,7 +48,9 @@ recognition.onresult = (event) => {
     if (event.results[0].isFinal) {
         const message = document.createElement('p');
         message.textContent = `${myUsername}: ${result}`;
-        document.querySelector('#message-board').append(message);
+        const messageBoard = document.querySelector('#message-board');
+        messageBoard.append(message);
+        messageBoard.scrollTop = messageBoard.scrollHeight; // auto scroll
         socket.emit('send-message', myUsername, result, myLanguageCode);
     }
 }
