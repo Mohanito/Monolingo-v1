@@ -49,7 +49,7 @@ recognition.onresult = (event) => {
         const message = document.createElement('p');
         message.textContent = `${myUsername}: ${result}`;
         document.querySelector('#message-board').append(message);
-        socket.emit('send-message', myUsername, result);
+        socket.emit('send-message', myUsername, result, myLanguageCode);
     }
 }
 
@@ -117,7 +117,7 @@ socket.on('send-info', (username, language, peerId) => {
     updatePeerInfo(username, language, peerId);
 })
 
-socket.on('broadcast-message', async (username, message) => {
+socket.on('broadcast-message', async (username, message, fromLanguage) => {
     const msg = document.createElement('p');
     msg.textContent = `${username}: ${message}`;
     document.querySelector('#message-board').append(msg);
@@ -127,7 +127,9 @@ socket.on('broadcast-message', async (username, message) => {
         headers: {
             'Content-Type': 'application/json'    // 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({ message, language: myLanguageCode }) // body data type must match "Content-Type" header
+        body: JSON.stringify({
+            message, language: myLanguageCode, fromLanguage: fromLanguage
+        }) // body data type must match "Content-Type" header
     });
     const result = await response.text();
     msgTranslated.textContent = `${username}: ${result}`;

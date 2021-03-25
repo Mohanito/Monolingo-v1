@@ -36,8 +36,8 @@ io.on('connection', (socket) => {
             socket.to(roomId).emit('send-info', username, language, peerId);
         });
 
-        socket.on('send-message', (username, message) => {
-            socket.to(roomId).emit('broadcast-message', username, message);
+        socket.on('send-message', (username, message, language) => {
+            socket.to(roomId).emit('broadcast-message', username, message, language);
         });
 
         socket.on('disconnect', () => {
@@ -75,8 +75,11 @@ app.get('/room/:roomId', (req, res) => {
 
 app.post('/translate', async (req, res) => {
     // console.log(req.body);
-    const { message, language } = req.body;
-    const text = await translate(message, language);
+    const { message, language, fromLanguage } = req.body;
+    // slice for zh-Hans & zh-Hant
+    const text = await translate(message, {
+        from: fromLanguage.slice(0, 2), to: language.slice(0, 2)
+    });
     res.send(text);
 })
 
