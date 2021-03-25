@@ -5,26 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monolingo</title>
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="bg-dark text-white">
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-4">Monolingo</h1>
-          <p class="lead">We understand that learning a second language is hard. That's why we designed Monolingo, a video web app
-            with real-time translation, to help you communicate with people around the world, using your mother
-            language.</p>
-        </div>
-      </div>
-    <div class="d-flex container w-100 h-100 my-3">
-        <div class="col-6 offset-3 text-center">
-            <h3>Start using now!</h3>
-            <p>Generate your random username to start video chat.</p>
+<body class="text-white">
+    <div class="d-flex container-fluid min-vh-100">
+        <div class="col-8 offset-2 text-center">
+            <h1 class="mt-5">Monolingo</h1>
+            <p class="lead">We understand that learning a second language is hard. That's why we designed Monolingo, a
+                video web app with real-time translation, to help you communicate with people around the world, using
+                your mother language.</p>
+            <h3 class="mt-5">Start using now!</h3>
             <form action="/room/new" method="POST">
-                <input class="form-control mb-3" type="text" id="username" name="username" placeholder="Enter Your Name">
-                <button class="btn btn-success" id="dice">Generate New Username</button>
+                <input class="form-control mb-3" type="text" id="username" name="username"
+                    placeholder="Enter Your Name">
+                <button class="btn btn-success" id="dice">Generate Random Username</button>
                 <div>
                     <label class="col-form-label" for="language">Select Your Language:</label>
                     <%- include('partials/languageSelector') %>
@@ -34,8 +34,15 @@
             <a href="/single" class="btn btn-danger mt-5">Single User Testing (Development)</a>
         </div>
     </div>
-</body>
 
-<script src="javascripts/home.js"></script>
+    <footer class="footer text-center py-4">
+        <h6>&copy; Monolingo 2021</h6>
+        <h6>Designed by <a href="https://github.com/Mohanito">Mohan Li</a></h6>
+    </footer>
+
+    <link rel="stylesheet" href="stylesheets/home.css">
+    <script src="javascripts/home.js"></script>
+
+</body>
 
 </html>

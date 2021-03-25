@@ -1,0 +1,17 @@
+body {
+    background: linear-gradient(rgba(49,71,89,0.5), rgba(49,71,89,0.5)), url('/images/home.jpg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Raleway', sans-serif;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: 600;
+}
+
+footer {
+    background: rgba(38, 55, 69, 0.4);
+}
