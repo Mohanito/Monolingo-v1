@@ -57,20 +57,34 @@ app.get('/single', (req, res) => {
 })
 
 // From 'Create a Room' button
-// Generate roomId; Pass username (in query) and roomId to chatroom middleware.
-app.post('/room/new', (req, res) => {
-    const { username, language } = req.body;
+app.get('/room/new', (req, res) => {
     const roomId = uuid();
+    res.redirect(`/join/${roomId}`);
+})
+
+app.get('/join/:roomId', (req, res) => {
+    const { roomId } = req.params;
+    res.render('join', { roomId });
+})
+
+app.post('/join/:roomId', (req, res) => {
+    const { roomId } = req.params;
+    const { username, language } = req.body;
     res.redirect(`/room/${roomId}?username=${username}&language=${language}`);
 })
 
 // Renders chatroom view
 app.get('/room/:roomId', (req, res) => {
     const { roomId } = req.params;
-    const username = req.query.username || 'Anonymous User';
-    const languageCode = req.query.language || 'en';
-    const language = codeToLanguage[languageCode];
-    res.render('room', { roomId, username, language, languageCode });
+    if (!req.query.username || !req.query.language) {
+        res.redirect(`/join/${roomId}`);
+    }
+    else {
+        const username = req.query.username || 'Anonymous User';
+        const languageCode = req.query.language || 'en';
+        const language = codeToLanguage[languageCode];
+        res.render('room', { roomId, username, language, languageCode });
+    }
 });
 
 app.post('/translate', async (req, res) => {

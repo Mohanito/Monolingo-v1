@@ -13,35 +13,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="text-white">
-    <div class="d-flex container-fluid min-vh-100">
+<body class="d-flex flex-column h-100 text-white">
+    <div class="d-flex container-fluid">
         <div class="col-8 offset-2 text-center">
             <h1 class="mt-5">Monolingo</h1>
             <p class="lead">We understand that learning a second language is hard. That's why we designed Monolingo, a
                 video web app with real-time translation, to help you communicate with people around the world, using
                 your mother language.</p>
             <h3 class="mt-5">Start using now!</h3>
-            <form action="/room/new" method="POST">
-                <input class="form-control mb-3" type="text" id="username" name="username"
-                    placeholder="Enter Your Name">
-                <button class="btn btn-success" id="dice">Generate Random Username</button>
-                <div>
-                    <label class="col-form-label" for="language">Select Your Language:</label>
-                    <%- include('partials/languageSelector') %>
-                </div>
-                <button class="btn btn-success mt-3">Create a Room</button>
-            </form>
+            <a href="/room/new" class="btn btn-success mt-3">Create a Room</a>
+            <div class="mt-5 pt-5">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, neque.</p>
+            </div>
             <a href="/single" class="btn btn-danger mt-5">Single User Testing (Development)</a>
         </div>
     </div>
 
-    <footer class="footer text-center py-4">
-        <h6>&copy; Monolingo 2021</h6>
-        <h6>Designed by <a href="https://github.com/Mohanito">Mohan Li</a></h6>
+    <footer class="footer py-4 mt-auto">
+        <div class="container">
+          <h6>&copy; Monolingo 2021 Designed by <a href="https://github.com/Mohanito">Mohan Li</a></h6>
+        </div>
     </footer>
 
     <link rel="stylesheet" href="stylesheets/home.css">
-    <script src="javascripts/home.js"></script>
 
 </body>
 
