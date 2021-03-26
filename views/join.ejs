@@ -8,29 +8,49 @@
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+            url("https://images.unsplash.com/photo-1585974738771-84483dd9f89f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1266&q=80");
+            background-size: cover;
+            background-position: center;
+            font-family: 'Raleway', sans-serif;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-6 offset-3">
-                <div class="card text-center">
-                    <h3 class="card-title">Enter your information</h3>
-                    <form action="/join/<%= roomId %>" method="post">
-                        <input class="form-control mb-3" type="text" id="username" name="username"
-                            placeholder="Enter Your Name">
-                        <button id="dice" class="btn btn-success">Generate Random Username</button>
-                        <div>
+    <div class="row my-3">
+        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+            <div class="card border-0 shadow">
+                <img src="https://images.unsplash.com/photo-1526948531399-320e7e40f0ca?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80" alt="login-form-image" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Enter your information</h5>
+                    <form action="/join/<%= roomId %>" method="POST" class="mb-3">
+                        <div class="mb-3">
+                            <label class="form-label" for="username">Username</label>
+                            <input class="form-control" type="text" id="username" name="username"
+                            placeholder="Enter Your Name" autofocus required>
+                            <button id="dice" class="btn btn-sm btn-primary mt-3">Random</button>
+                        </div>
+                        <div class="mb-3">
                             <label class="col-form-label" for="language">Select Your Language:</label>
                             <%- include('partials/languageSelector') %>
                         </div>
-                        <button class="btn btn-success mt-3">Join Room</button>
+                        <div class="d-grid gap-2 d-block">
+                            <button class="btn btn-success">Join Room</button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
-        <a href="/">Back to Homepage</a>
     </div>
+
+    <a href="/" class="btn btn-primary">Back to Homepage</a>
 
     <script src="/javascripts/join.js"></script>
 </body>
