@@ -48,9 +48,7 @@ recognition.onresult = (event) => {
     if (event.results[0].isFinal) {
         const message = document.createElement('p');
         message.textContent = `${myUsername}: ${result}`;
-        const messageBoard = document.querySelector('#message-board');
-        messageBoard.append(message);
-        messageBoard.scrollTop = messageBoard.scrollHeight; // auto scroll
+        appendMessage(message);
         socket.emit('send-message', myUsername, result, myLanguageCode);
     }
 }
@@ -92,7 +90,13 @@ peer.on('open', (peerId) => {
 
 const video = document.querySelector("#videoElement");
 
-navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+navigator.mediaDevices.getUserMedia({
+    video: {
+        width: 1280,    // 16:9
+        height: 720
+    }, 
+    audio: true
+})
     .then(function (stream) {
         video.srcObject = stream;
         video.muted = true;
@@ -122,7 +126,7 @@ socket.on('send-info', (username, language, peerId) => {
 socket.on('broadcast-message', async (username, message, fromLanguage) => {
     const msg = document.createElement('p');
     msg.textContent = `${username}: ${message}`;
-    document.querySelector('#message-board').append(msg);
+    appendMessage(msg);
     const msgTranslated = document.createElement('p');
     const response = await fetch('/translate', {
         method: 'POST',
@@ -135,7 +139,7 @@ socket.on('broadcast-message', async (username, message, fromLanguage) => {
     });
     const result = await response.text();
     msgTranslated.textContent = `${username}: ${result}`;
-    document.querySelector('#message-board').append(msgTranslated);
+    appendMessage(msgTranslated);
 })
 
 socket.on('user-disconnected', (username, peerId) => {
@@ -167,40 +171,46 @@ function onStream(mediaConnection, peerId) {
 function onClose(mediaConnection, peerId) {
     mediaConnection.on('close', () => {
         document.getElementById(`col-${peerId}`).remove();
+        if (document.getElementById('video-list').childElementCount <= 2) {
+            document.getElementById('waiting-for-user').setAttribute('style', 'display: flex');
+        }
     });
 }
 
 function appendVideo(remoteStream, peerId) {
-    if (!document.getElementById(`video-${peerId}`)) {
+    document.getElementById('waiting-for-user').setAttribute('style', 'display: none');
+    if (!document.getElementById(`col-${peerId}`)) {
         const column = document.createElement('div');
-        column.setAttribute('class', 'col')
+        column.setAttribute('class', 'col p-0')
         column.id = `col-${peerId}`;
         const card = document.createElement('div');
-        card.setAttribute('class', 'card mx-auto bg-dark');
-        card.setAttribute('style', 'width: 348px');
-        const usernameHeader = document.createElement('h6');
-        usernameHeader.setAttribute('class', 'card-title text-white');
-        usernameHeader.innerHTML = peerInfo[peerId].username;
-        const languageHeader = document.createElement('h6');
-        languageHeader.setAttribute('class', 'card-title text-white');
-        languageHeader.innerHTML = 'Speaks ' + peerInfo[peerId].language;
-        const newVideo = document.createElement('video');
-        newVideo.srcObject = remoteStream;
-        newVideo.autoplay = true;
-        newVideo.id = `video-${peerId}`;
-        newVideo.width = '348';
-        newVideo.height = '261';
-        // const overlay = document.createElement('div');
-        // overlay.setAttribute('class', 'card-img-overlay');
-        // overlay.append(overlayText);
-        const videoList = document.querySelector('#video-list');
-        videoList.append(column);
+        card.setAttribute('class', 'card border-0');
+        const titleOverlay = document.createElement('h6');
+        titleOverlay.setAttribute('class', 'title-overlay card-title p-2');
+        titleOverlay.innerHTML = `${peerInfo[peerId].username} - Speaks ${peerInfo[peerId].language}`;
+        const overlay = document.createElement('div');
+        overlay.setAttribute('class', 'card-img-overlay p-0');
+
+        document.querySelector('#video-list').append(column);
         column.append(card);
-        card.append(usernameHeader);
-        card.append(languageHeader);
-        card.append(newVideo);
-        // card.append(overlay);
+        card.append(overlay);
+        overlay.append(titleOverlay);
+        card.append(createVideo(remoteStream, peerId));
     }
+}
+
+function createVideo(remoteStream) {
+    const newVideo = document.createElement('video');
+    newVideo.srcObject = remoteStream;
+    newVideo.autoplay = true;
+    newVideo.setAttribute('style', 'width: 100%; height: auto');
+    return newVideo;
+}
+
+function appendMessage(message) {
+    const messageBoard = document.querySelector('#message-board');
+    messageBoard.append(message);
+    messageBoard.scrollTop = messageBoard.scrollHeight; // auto scroll
 }
 
 
