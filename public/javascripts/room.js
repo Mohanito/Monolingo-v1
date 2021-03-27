@@ -9,6 +9,23 @@ const peerInfo = {};
 // Keyboard-control helper
 let recognitionLocked = false;
 
+// Text-to-speech 
+let myVoice = undefined;
+getVoicesPromise().then((voices) => {
+    console.log("Text-to-speech: Voices populated");
+    populateVoiceList(voices);
+});
+
+document.querySelector('#voiceSelect').addEventListener('change', (event) => {
+    let voices = speechSynthesis.getVoices();
+    for (var i = 0; i < voices.length; i++) {
+        if (voices[i].lang + voices[i].name === event.target.value) {
+            myVoice = voices[i];
+            break;
+        }
+    }
+});
+
 // Speech-to-text with Web Speech API
 const recognition = new SpeechRecognition();
 recognition.continuous = false;
@@ -27,7 +44,7 @@ document.querySelector('#record').addEventListener('click', () => {
 })
 
 recognition.onstart = () => {
-    console.log('Web Speech API: Recognition starts');
+    console.log('Speech-to-text: Recognition starts');
     recognitionLocked = true;
     document.querySelector('#record').innerHTML = 'Recording...';
     document.querySelector('#record').classList.remove('btn-success');
@@ -35,7 +52,7 @@ recognition.onstart = () => {
 };
 
 recognition.onend = () => {
-    console.log('Web Speech API: Recognition ends');
+    console.log('Speech-to-text: Recognition ends');
     recognitionLocked = false;
     document.querySelector('#record').innerHTML = 'Start Speaking';
     document.querySelector('#record').classList.remove('btn-danger');
@@ -72,7 +89,6 @@ recognition.onerror = (event) => {
 //     recognition.lang = event.target.value;
 // });
 
-
 // Not used in this design b/c client-side bugs, but definitely should try after deploying.
 function restart(recognition) {
     recognition.stop();
@@ -94,7 +110,7 @@ navigator.mediaDevices.getUserMedia({
     video: {
         width: 1280,    // 16:9
         height: 720
-    }, 
+    },
     audio: true
 })
     .then(function (stream) {
@@ -102,7 +118,7 @@ navigator.mediaDevices.getUserMedia({
         video.muted = true;
 
         socket.on('user-connected', (username, language, peerId) => {
-            console.log(`${username} (peerId: ${peerId}) has joined the room`);
+            console.log(`Socket.io: ${username} (peerId: ${peerId}) has joined the room`);
             updatePeerInfo(username, language, peerId);
             socket.emit('send-info', myUsername, myLanguage, myPeerId);
             callNewUser(peerId, stream);
@@ -116,7 +132,7 @@ navigator.mediaDevices.getUserMedia({
         });
     })
     .catch(function (error) {
-        console.log('Failed to get local stream', error);
+        console.log('getUserMedia: Failed to get local stream', error);
     })
 
 socket.on('send-info', (username, language, peerId) => {
@@ -140,6 +156,9 @@ socket.on('broadcast-message', async (username, message, fromLanguage) => {
     const result = await response.text();
     msgTranslated.textContent = `${username}: ${result}`;
     appendMessage(msgTranslated);
+    let utterThis = new SpeechSynthesisUtterance(result);
+    utterThis.voice = myVoice;
+    speechSynthesis.speak(utterThis);
 })
 
 socket.on('user-disconnected', (username, peerId) => {
@@ -185,7 +204,7 @@ function appendVideo(remoteStream, peerId) {
         column.id = `col-${peerId}`;
         const card = document.createElement('div');
         card.setAttribute('class', 'card border-0');
-        const titleOverlay = document.createElement('h6');
+        const titleOverlay = document.createElement('h5');
         titleOverlay.setAttribute('class', 'title-overlay card-title p-2');
         titleOverlay.innerHTML = `${peerInfo[peerId].username} - Speaks ${peerInfo[peerId].language}`;
         const overlay = document.createElement('div');
@@ -213,6 +232,40 @@ function appendMessage(message) {
     messageBoard.scrollTop = messageBoard.scrollHeight; // auto scroll
 }
 
+// Text-to-speech functions
+function getVoicesPromise() {
+    return new Promise((resolve, reject) => {
+        let synth = window.speechSynthesis;
+        let id;
+
+        id = setInterval(() => {
+            if (synth.getVoices().length !== 0) {
+                resolve(synth.getVoices());
+                clearInterval(id);
+            }
+        }, 10);
+    });
+};
+
+function populateVoiceList(voices) {
+    let langAssigned = false;
+    for (var i = 0; i < voices.length; i++) {
+        if (voices[i].lang.slice(0, 2) === myLanguageCode.slice(0, 2)) {
+            if (!langAssigned) {
+                myVoice = voices[i];
+                langAssigned = true;
+            }
+            var option = document.createElement('option');
+            option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+            if (voices[i].default) {
+                option.textContent += ' -- DEFAULT';
+            }
+            // different voices may share the same language code
+            option.setAttribute('value', voices[i].lang + voices[i].name);
+            document.querySelector('#voiceSelect').appendChild(option);
+        }
+    }
+}
 
 /*
     Peer.js & Socket.io Logic:
