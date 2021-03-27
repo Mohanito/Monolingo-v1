@@ -1,10 +1,63 @@
 var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
 
+function getVoicesPromise() {
+    return new Promise(
+        function (resolve, reject) {
+            let synth = window.speechSynthesis;
+            let id;
+
+            id = setInterval(() => {
+                if (synth.getVoices().length !== 0) {
+                    resolve(synth.getVoices());
+                    clearInterval(id);
+                }
+            }, 10);
+        }
+    )
+}
+
 var recognition = new SpeechRecognition();
 recognition.continuous = false;
 recognition.lang = 'en-US';
 recognition.interimResults = true;
 recognition.maxAlternatives = 1;
+
+let myVoice = undefined;
+getVoicesPromise().then((voices) => {
+    console.log("Voices populated");
+    populateVoiceList(voices);
+});
+
+function populateVoiceList(voices) {
+    let langAssigned = false;
+    for (var i = 0; i < voices.length; i++) {
+        if (voices[i].lang.slice(0, 2) === recognition.lang.slice(0, 2)) {
+            if (!langAssigned) {
+                myVoice = voices[i];
+                langAssigned = true;
+            }
+            var option = document.createElement('option');
+            option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+            if (voices[i].default) {
+                option.textContent += ' -- DEFAULT';
+            }
+            option.setAttribute('value', voices[i].lang);
+            document.querySelector('#voiceSelect').appendChild(option);
+        }
+    }
+}
+
+document.querySelector('#voiceSelect').addEventListener('change', (event) => {
+    console.log(event.target.value);
+    voices = speechSynthesis.getVoices();
+    for (var i = 0; i < voices.length; i++) {
+        if (voices[i].lang === event.target.value) {
+            myVoice = voices[i];
+            break;
+        }
+    }
+});
+
 
 recognition.start();
 
@@ -12,9 +65,14 @@ recognition.onstart = () => {
     console.log('Recognition starts');
 }
 recognition.onresult = function (event) {
-    var color = event.results[0][0].transcript;
-    document.querySelector('#result').textContent = color;    // text content
-    console.log('Confidence: ' + event.results[0][0].confidence);
+    var result = event.results[0][0].transcript;
+    document.querySelector('#result').textContent = result;
+    if (event.results[0].isFinal) {
+        let utterThis = new SpeechSynthesisUtterance(result);
+        utterThis.voice = myVoice;
+        console.log(utterThis.voice);
+        speechSynthesis.speak(utterThis);
+    }
 }
 
 recognition.onspeechend = function () {
