@@ -21,11 +21,16 @@
                 video web app with real-time translation, to help you communicate with people around the world, using
                 your mother language.</p>
             <h3 class="mt-5">Start using now!</h3>
-            <a href="/room/new" class="btn btn-success mt-3">Create a Room</a>
-            <div class="mt-5 pt-5">
+            <a href="/room/new" class="btn btn-success my-3">Create a Room</a>
+            <div>
+                <label for="room-id">Or enter the room id to join:</label>
+                <input class="form-control" type="text" id="room-id" name="room-id">
+                <button id="join-room" class="btn btn-success mt-3">Join Room</button>
+            </div>
+            <div class="mt-5">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, neque.</p>
             </div>
-            <a href="/single" class="btn btn-danger mt-5">Single User Testing (Development)</a>
+            <a href="/single" class="btn btn-danger">Single User Testing (Development)</a>
         </div>
     </div>
 
@@ -36,6 +41,13 @@
     </footer>
 
     <link rel="stylesheet" href="stylesheets/home.css">
+    <script>
+        document.querySelector('#join-room').addEventListener('click', () => {
+            if (document.querySelector('#room-id').value) {
+                window.location.href = `/room/${document.querySelector('#room-id').value}`;
+            }
+        });
+    </script>
 
 </body>
 
