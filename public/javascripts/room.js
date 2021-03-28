@@ -63,8 +63,7 @@ recognition.onresult = (event) => {
     let result = event.results[0][0].transcript;
     document.querySelector('#subtitle').textContent = result;
     if (event.results[0].isFinal) {
-        const message = document.createElement('p');
-        message.textContent = `${myUsername}: ${result}`;
+        const message = `${myUsername} (Original): ${result}`;
         appendMessage(message);
         socket.emit('send-message', myUsername, result, myLanguageCode);
     }
@@ -140,10 +139,8 @@ socket.on('send-info', (username, language, peerId) => {
 })
 
 socket.on('broadcast-message', async (username, message, fromLanguage) => {
-    const msg = document.createElement('p');
-    msg.textContent = `${username}: ${message}`;
+    const msg = `${username} (Original): ${message}`;
     appendMessage(msg);
-    const msgTranslated = document.createElement('p');
     const response = await fetch('/translate', {
         method: 'POST',
         headers: {
@@ -154,7 +151,7 @@ socket.on('broadcast-message', async (username, message, fromLanguage) => {
         }) // body data type must match "Content-Type" header
     });
     const result = await response.text();
-    msgTranslated.textContent = `${username}: ${result}`;
+    const msgTranslated = `${username} (Translated): ${result}`;
     appendMessage(msgTranslated);
     let utterThis = new SpeechSynthesisUtterance(result);
     utterThis.voice = myVoice;
@@ -226,9 +223,12 @@ function createVideo(remoteStream) {
     return newVideo;
 }
 
+// parameter type: String
 function appendMessage(message) {
     const messageBoard = document.querySelector('#message-board');
-    messageBoard.append(message);
+    const msg = document.createElement('p');
+    msg.textContent = message;
+    messageBoard.append(msg);
     messageBoard.scrollTop = messageBoard.scrollHeight; // auto scroll
 }
 

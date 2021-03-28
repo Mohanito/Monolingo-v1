@@ -32,25 +32,26 @@
                     <h5 class="card-title">Enter your information</h5>
                     <form action="/join/<%= roomId %>" method="POST" class="mb-3">
                         <div class="mb-3">
-                            <label class="form-label" for="username">Username</label>
+                            <div class="d-flex justify-content-between">
+                                <p class="form-label pt-2" for="username">Username:</p>
+                                <button id="dice" class="form-label btn btn-sm btn-primary">Random</button>
+                            </div>
                             <input class="form-control" type="text" id="username" name="username"
                             placeholder="Enter Your Name" autofocus required>
-                            <button id="dice" class="btn btn-sm btn-primary mt-3">Random</button>
                         </div>
                         <div class="mb-3">
                             <label class="col-form-label" for="language">Select Your Language:</label>
                             <%- include('partials/languageSelector') %>
                         </div>
                         <div class="d-grid gap-2 d-block">
-                            <button class="btn btn-success">Join Room</button>
+                            <button class="btn btn-primary">Join Room</button>
+                            <a href="/" class="btn btn-secondary">Back to Homepage</a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <a href="/" class="btn btn-primary">Back to Homepage</a>
 
     <script src="/javascripts/join.js"></script>
 </body>
