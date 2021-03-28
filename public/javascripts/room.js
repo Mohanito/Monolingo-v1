@@ -9,10 +9,27 @@ const peerInfo = {};
 // Keyboard-control helper
 let recognitionLocked = false;
 
+// Bootstrap Tooltip - need bundle.js
+// var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+// var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+//     return new bootstrap.Tooltip(tooltipTriggerEl)
+// })
+
+// Copy Button
+document.querySelector('#copy-btn').addEventListener('click', () => {
+    let range = document.createRange();
+    range.selectNode(document.querySelector("#room-link"));
+    window.getSelection().removeAllRanges();    // clear current selection
+    window.getSelection().addRange(range);      // to select text
+    document.execCommand("copy");
+    window.getSelection().removeAllRanges();    // to deselect
+    // alert('Copied!');
+})
+
 // Text-to-speech 
 let myVoice = undefined;
 getVoicesPromise().then((voices) => {
-    console.log("Text-to-speech: Voices populated");
+    // console.log("Text-to-speech: Voices populated");
     populateVoiceList(voices);
 });
 
@@ -44,7 +61,7 @@ document.querySelector('#record').addEventListener('click', () => {
 })
 
 recognition.onstart = () => {
-    console.log('Speech-to-text: Recognition starts');
+    // console.log('Speech-to-text: Recognition starts');
     recognitionLocked = true;
     document.querySelector('#record').innerHTML = 'Recording...';
     document.querySelector('#record').classList.remove('btn-success');
@@ -52,7 +69,7 @@ recognition.onstart = () => {
 };
 
 recognition.onend = () => {
-    console.log('Speech-to-text: Recognition ends');
+    // console.log('Speech-to-text: Recognition ends');
     recognitionLocked = false;
     document.querySelector('#record').innerHTML = 'Start Speaking';
     document.querySelector('#record').classList.remove('btn-danger');
@@ -107,8 +124,8 @@ const video = document.querySelector("#videoElement");
 
 navigator.mediaDevices.getUserMedia({
     video: {
-        width: 1280,    // 16:9
-        height: 720
+        width: 600,    // 16:9 / 3:2
+        height: 400
     },
     audio: true
 })
@@ -117,7 +134,8 @@ navigator.mediaDevices.getUserMedia({
         video.muted = true;
 
         socket.on('user-connected', (username, language, peerId) => {
-            console.log(`Socket.io: ${username} (peerId: ${peerId}) has joined the room`);
+            // console.log(`Socket.io: ${username} (peerId: ${peerId}) has joined the room`);
+            appendMessage(`${username} joined the room!`);
             updatePeerInfo(username, language, peerId);
             socket.emit('send-info', myUsername, myLanguage, myPeerId);
             callNewUser(peerId, stream);
@@ -159,7 +177,8 @@ socket.on('broadcast-message', async (username, message, fromLanguage) => {
 })
 
 socket.on('user-disconnected', (username, peerId) => {
-    console.log(`Socket.io: ${username} (peerId: ${peerId}) left.`)
+    // console.log(`Socket.io: ${username} (peerId: ${peerId}) left.`)
+    appendMessage(`${username} left.`);
     if (peerCalls[peerId])
         peerCalls[peerId].close();
 });
@@ -201,7 +220,7 @@ function appendVideo(remoteStream, peerId) {
         column.id = `col-${peerId}`;
         const card = document.createElement('div');
         card.setAttribute('class', 'card border-0');
-        const titleOverlay = document.createElement('h5');
+        const titleOverlay = document.createElement('h6');
         titleOverlay.setAttribute('class', 'title-overlay card-title p-2');
         titleOverlay.innerHTML = `${peerInfo[peerId].username} - Speaks ${peerInfo[peerId].language}`;
         const overlay = document.createElement('div');
