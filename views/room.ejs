@@ -14,54 +14,59 @@
     
 </head>
 
-<body class="d-flex flex-column min-vh-100 bg-dark">
-    <main class="d-flex container-fluid justify-content-center p-0 text-white">
-        <div class="row container-fluid row-cols-1 row-cols-md-2 p-0" id="video-list">
-            <div class="col p-0">
-                <div class="card border-0">
-                    <div class="card-img-overlay p-0">
-                        <h5 class="title-overlay card-title p-2">
-                            <%= username %> - Speaks <%= language %>
-                        </h5>
-                        <p class="position-absolute bottom-0 p-1" id="subtitle" style="background-color: rgba(0, 0, 0, 0.5);"></p>
+<body class="d-flex flex-column bg-dark" style="min-height: 90vh">
+    <div class="row text-white" style="min-height: 90vh">
+        <div class="col-md-9 p-0">
+            <main class="d-flex container-fluid justify-content-center p-0 text-white">
+                <div class="row container-fluid row-cols-1 row-cols-md-2 p-0" id="video-list">
+                    <div class="col pe-0">
+                        <div class="card border-0">
+                            <div class="card-img-overlay p-0">
+                                <h6 class="title-overlay card-title p-2">
+                                    <%= username %> - Speaks <%= language %>
+                                </h6>
+                                <span class="position-absolute bottom-0 p-1" id="subtitle" style="background-color: rgba(0, 0, 0, 0.5);">Press Space to Start Speaking</span>
+                            </div>
+                            <video id="videoElement" autoplay="true" style="background-color: black; width: 100%; height: auto;"></video>
+                        </div>
                     </div>
-                    <video id="videoElement" autoplay="true" style="background-color: black; width: 100%; height: auto;"></video>
+                    <div class="col waiting-for-user" id="waiting-for-user">
+                        <h6>Waiting for other users to join...</h6>
+                        <small>Invite your friend: <%= roomId %></small>
+                    </div>
                 </div>
-            </div>
-            <div class="col waiting-for-user" id="waiting-for-user">
-                <h6>Waiting for other users to join...</h6>
-                <small>Invite your friend: <%= roomId %></small>
-            </div>
-        </div>
-    </main>
+            </main>
 
-    <div class="row row-cols-1 row-cols-md-2 m-3">
-        <div class="col mb-3">
-            <div class="text-white bg-dark">
-                <div class="container my-2">
-                    <h6 class="text-center">Click or Press Space to Start Speaking</h6>
-                    <div class="d-flex container justify-content-center my-2">
-                        <button id="record" class="btn btn-success">Start Speaking</button>
+            <div class="container my-3">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        <label class="form-label" for="voiceSelect">Select Translator Voice</label>
+                        <select class="form-select" name="voiceSelect" id="voiceSelect">
+                            <!-- Voice Options -->
+                        </select>
+                        <p class="text-center my-3">Click or Press Space to Start Speaking</p>
+                        <div class="d-flex container justify-content-center my-3">
+                            <button id="record" class="btn btn-lg btn-success">Start Speaking</button>
+                        </div>
+                        <p class="text-center mt-5">Invite your friend: <%= roomId %></p>
                     </div>
-                    <p>Invite your friend: <%= roomId %></p>
-                    <label class="form-label" for="voiceSelect">Select Translator Voice</label>
-                    <select class="form-select" name="voiceSelect" id="voiceSelect">
-                    </select>
                 </div>
             </div>
         </div>
-        <div class="col mb-3 pe-0">
-            <div class="card text-white shadow" style="background-color: #133b5c;">
-                <div class="card-header">
+
+        <div class="col p-0">
+            <div class="card text-white shadow h-100" style="background-color: #373737;">
+                <h6 class="card-header">
                     Messages
-                </div>
-                <div class="container" tabindex="0" style="overflow-y: scroll; height: 170px;" id="message-board">
+                </h6>
+                <div class="container h-100" tabindex="0" style="overflow-y: scroll;" id="message-board">
                     <!-- Messages -->
                 </div>
             </div>
         </div>
     </div>
-    <footer class="footer py-4 mt-auto text-white">
+
+    <footer class="footer d-flex align-items-center text-white" style="height: 10vh">
         <div class="d-flex container justify-content-between">
             <h6>&copy; Monolingo 2021 Designed by <a class="text-white" href="https://github.com/Mohanito">Mohan Li</a></h6>
             <a class="text-white" href="/">Back to Homepage</a>
