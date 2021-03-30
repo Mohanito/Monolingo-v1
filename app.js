@@ -51,11 +51,6 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-// Single-user testing
-app.get('/single', (req, res) => {
-    res.render('single');
-})
-
 // From 'Create a Room' button
 app.get('/room/new', (req, res) => {
     const roomId = uuid();
