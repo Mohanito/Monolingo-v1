@@ -21,15 +21,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-
-
 // Socket.io
 io.on('connection', (socket) => {
-    console.log('Socket.io: New user connection');
+    // console.log('Socket.io: New user connection');
     socket.on('join-room', (roomId, username, language, peerId) => {
         // A room is an arbitrary channel that sockets can join and leave. In this case, channel name = roomId
         socket.join(roomId);
-        console.log(`Socket.io: ${username} (peerId: ${peerId}) joined room ${roomId}`);
+        // console.log(`Socket.io: ${username} (peerId: ${peerId}) joined room ${roomId}`);
         socket.to(roomId).emit('user-connected', username, language, peerId, roomId); // broadcast
 
         socket.on('send-info', (username, language, peerId) => {
@@ -51,7 +49,7 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
-// From 'Create a Room' button
+// Create Room
 app.get('/room/new', (req, res) => {
     const roomId = uuid();
     res.redirect(`/join/${roomId}`);
@@ -83,7 +81,6 @@ app.get('/room/:roomId', (req, res) => {
 });
 
 app.post('/translate', async (req, res) => {
-    // console.log(req.body);
     const { message, language, fromLanguage } = req.body;
     // slice for zh-Hans & zh-Hant
     const text = await translate(message, {
