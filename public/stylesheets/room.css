@@ -9,11 +9,12 @@ body {
 }
 
 .waiting-for-user {
-    /* background: radial-gradient(circle at center, #2c5364, #203a43,#0f2027); */
-    background: #3E5151;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #DECBA4, #3E5151);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #DECBA4, #3E5151); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+    /* background: #3E5151;
+    background: -webkit-linear-gradient(to left, #DECBA4, #3E5151);
+    background: linear-gradient(to left, #DECBA4, #3E5151);  */
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+    url('https://cdn.pixabay.com/photo/2017/08/06/09/29/bokeh-2590658_1280.jpg');
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
