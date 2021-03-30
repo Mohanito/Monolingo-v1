@@ -5,42 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monolingo | Home</title>
+
     <!-- Bootswatch Darkly -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/darkly/bootstrap.min.css"
         integrity="sha384-nNK9n28pDUDDgIiIqZ/MiyO3F4/9vsMtReZK39klb/MtkZI3/LtjSjlmyVPS3KdN" crossorigin="anonymous">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
 </head>
 
-<body class="d-flex flex-column bg-dark text-white" style="min-height: 100vh">
-    <div class="d-flex container-fluid" style="min-height: 90vh;">
-        <div class="col-md-6 offset-md-3 text-center">
-            <h1 class="mt-5">Monolingo</h1>
-            <p class="lead">Learning a second language is hard. That's why Monolingo exists. Monolingo is a
-                video conferencing web app with real-time translation, to help you communicate with people around the
-                world, using your mother language.</p>
-            <h3 class="m-3">Start using now!</h3>
-            <a href="/room/new" class="btn btn-success">Create a Room</a>
-            <div class="m-3">
-                <label class="form-label" for="room-id">Or enter the room id to join:</label>
-                <input class="form-control" type="text" id="room-id" name="room-id">
-                <button id="join-room" class="btn btn-success mt-3">Join Room</button>
+<body class="d-flex flex-column" style="min-height: 100vh">
+    <main class="d-flex container-fluid flex-column" style="min-height: 100vh">
+        <div class="col-md-8 offset-md-1" style="padding-top: 25vh;">
+            <h1>Welcome to <span class="text-success">Monolingo</span></h1>
+            <h3 class="my-3">A free video conferencing application with simple, real-time translation</h3>
+            <p class="lead">Start using now! No registration required!</p>
+            <a href="/room/new" class="btn btn-lg btn-outline-success">Create a Room</a>
+        </div>
+        <div class="col-md-4 offset-md-1 mt-3">
+            <label class="form-label lead" for="room-id">Or enter the room ID to join:</label>
+            <input class="form-control mb-3" type="text" id="room-id" name="room-id">
+            <button id="join-room" class="btn btn-lg btn-outline-success">Join Room</button>
+        </div>
+    </main>
+    <div class="d-flex flex-column container text-center" style="min-height: 40vh">
+        <h3 class="my-5">Learning a second language could be painful. And that's why <span
+                class="text-success">Monolingo</span> exists!</h3>
+        <div class="col-md-8 offset-md-2">
+            <h5>
+                Monolingo helps you communicate with people around the world, using ONLY your mother language.
+                Monolingo currently supports 29 languages, and provides 67 different voices for simultaneous
+                interpretation.
+            </h5>
+        </div>
+
+    </div>
+    <div class="d-flex container-fluid text-center mb-5" style="min-height: 50vh">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card shadow h-100">
+                    <h4>Image Placeholder</h4>
+                </div>
             </div>
-            <p>Features include: Video chat using Webrtc & Peer.js, Speech-to-text and
-                Text-to-speech using Web Speech API, and text translation with Google Translate API. The project
-                currently supports Chrome only; please see
-                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#browser_compatibility">
-                    Web Speech API compatibility table</a>
-                for more details.
-            </p>
+            <div class="col-md-4">
+                <div class="card shadow h-100">
+                    <h4>View this project on<a href="https://github.com/Mohanito/Monolingo">
+                        Github <ion-icon name="logo-github"></ion-icon>
+                </a></h4>
+                    <p>The design of this project mainly consists of 3 parts: Video chat using Webrtc & Peer.js,
+                        speech-to-text and text-to-speech using Web Speech API, and text translation with Google Translate
+                        API. The project
+                        currently supports Chrome only due to limitations of Web Speech API; please see
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#browser_compatibility">
+                            Web Speech API compatibility table</a>
+                        for more details.
+                    </p>
+                    <p>Designed by <a href="https://github.com/Mohanito">Mohan Li</a></p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <footer class="footer d-flex align-items-center text-white" style="height: 10vh">
-        <div class="d-flex container justify-content-between">
-            <h6>&copy; Monolingo 2021 Designed by <a href="https://github.com/Mohanito">Mohan Li</a>
-            </h6>
+    <footer class="footer d-flex align-items-center mt-auto" style="height: 10vh">
+        <div class="container">
+            <h6>Monolingo 2021 <a href="https://github.com/Mohanito/Monolingo">
+                    <ion-icon name="logo-github"></ion-icon>
+                </a></h6>
         </div>
     </footer>
 
