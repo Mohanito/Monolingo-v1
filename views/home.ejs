@@ -13,30 +13,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body class="d-flex flex-column h-100 text-white">
-    <div class="d-flex container-fluid">
-        <div class="col-8 offset-2 text-center">
+<body class="d-flex flex-column bg-dark text-white" style="min-height: 100vh">
+    <div class="d-flex container-fluid" style="min-height: 90vh;">
+        <div class="col-md-6 offset-md-3 text-center">
             <h1 class="mt-5">Monolingo</h1>
-            <p class="lead">We understand that learning a second language is hard. That's why we designed Monolingo, a
-                video web app with real-time translation, to help you communicate with people around the world, using
-                your mother language.</p>
-            <h3 class="mt-5">Start using now!</h3>
-            <a href="/room/new" class="btn btn-success my-3">Create a Room</a>
-            <div>
+            <p class="lead">Learning a second language is hard. That's why Monolingo exists. Monolingo is a
+                video conferencing web app with real-time translation, to help you communicate with people around the
+                world, using your mother language.</p>
+            <h3 class="m-3">Start using now!</h3>
+            <a href="/room/new" class="btn btn-success">Create a Room</a>
+            <div class="m-3">
                 <label class="form-label" for="room-id">Or enter the room id to join:</label>
                 <input class="form-control" type="text" id="room-id" name="room-id">
                 <button id="join-room" class="btn btn-success mt-3">Join Room</button>
             </div>
-            <div class="mt-5">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, neque.</p>
-            </div>
-            <a href="/single" class="btn btn-danger">Single User Testing (Development)</a>
+            <p>Features include: Video chat using Webrtc & Peer.js, Speech-to-text and
+                Text-to-speech using Web Speech API, and text translation with Google Translate API. The project
+                currently supports Chrome only; please see
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#browser_compatibility">
+                    Web Speech API compatibility table</a>
+                for more details.
+            </p>
         </div>
     </div>
 
-    <footer class="footer py-4 mt-auto">
-        <div class="container">
-          <h6>&copy; Monolingo 2021 Designed by <a class="text-white" href="https://github.com/Mohanito">Mohan Li</a></h6>
+    <footer class="footer d-flex align-items-center text-white" style="height: 10vh">
+        <div class="d-flex container justify-content-between">
+            <h6>&copy; Monolingo 2021 Designed by <a href="https://github.com/Mohanito">Mohan Li</a>
+            </h6>
         </div>
     </footer>
 
