@@ -37,3 +37,21 @@ footer {
     min-height: 10vh;
     background: rgba(0, 0, 0, 0.3);
 }
+
+/* Responsive design for video grids and the message board */
+/* Large >= 992px */
+@media (max-width: 991px) { 
+    #waiting-for-user {
+        height: 332px;
+    }
+}
+
+@media (max-width: 768px) { 
+    #waiting-for-user {
+        height: 261px;
+    }
+
+    #message-board {
+        height: 261px !important;
+    }
+}

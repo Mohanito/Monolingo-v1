@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="/stylesheets/bootswatch-darkly.css">
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="/stylesheets/join.css">
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
 </head>
 
 <body>
@@ -23,7 +26,9 @@
                     <div class="form-group mb-3">
                         <div class="d-flex justify-content-between">
                             <label class="form-label pt-1" for="username">Username</label>
-                            <button id="dice" class="btn btn-sm btn-success mb-2">Random</button>
+                            <button id="dice" class="btn btn-link p-0">
+                                <ion-icon style="font-size: 28px;" name="dice-outline"></ion-icon>
+                            </button>
                         </div>
                         <input class="form-control" type="text" id="username" name="username"
                             placeholder="Enter username" autofocus required>

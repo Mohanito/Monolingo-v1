@@ -11,15 +11,16 @@
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="/stylesheets/room.css">
     <!-- Ionicons -->
-    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
 </head>
 
 <body>
     <div class="row" style="min-height: 90vh">
-        <div class="col-md-9 p-0">
+        <div class="col-md-6 col-lg-9 p-0">
             <!-- Video List -->
             <main class="d-flex justify-content-center">
-                <div class="row container-fluid row-cols-1 row-cols-md-2" id="video-list">
+                <div class="row container-fluid row-cols-1 row-cols-lg-2" id="video-list">
                     <div class="col p-0">
                         <div class="card border-0">
                             <div class="card-img-overlay p-0">
@@ -75,8 +76,7 @@
     <!-- Footer -->
     <footer class="footer d-flex align-items-center">
         <div class="d-flex container justify-content-between">
-            <h6>&copy; Monolingo 2021 Designed by <a href="https://github.com/Mohanito">Mohan Li</a>
-            </h6>
+            <h6>&copy; Monolingo 2021</h6>
             <h6><a href="/">Back to Homepage</a></h6>
         </div>
     </footer>
