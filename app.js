@@ -9,7 +9,7 @@ const translate = require('translate');
 translate.engine = 'libre';
 
 // Helper Scripts
-const { codeToLanguage, languageToCode } = require('./controllers/languages')
+const { codeToLanguage, languageToCode } = require('./languages')
 
 // Application settings
 app.set('view engine', 'ejs');

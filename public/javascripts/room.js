@@ -9,12 +9,6 @@ const peerInfo = {};
 // Keyboard-control helper
 let recognitionLocked = false;
 
-// Bootstrap Tooltip - need bundle.js
-// var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-// var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-//     return new bootstrap.Tooltip(tooltipTriggerEl)
-// })
-
 // Copy Button
 document.querySelector('#copy-btn').addEventListener('click', () => {
     let range = document.createRange();
@@ -100,12 +94,7 @@ recognition.onerror = (event) => {
     recognition.stop();
 }
 
-// Language Select
-// document.querySelector('#language').addEventListener('change', (event) => {
-//     recognition.lang = event.target.value;
-// });
-
-// Not used in this design b/c client-side bugs, but definitely should try after deploying.
+// Not used in this version b/c Web Speech API limitations, but definitely should try after deploying.
 function restart(recognition) {
     recognition.stop();
     setTimeout(() => {
@@ -241,7 +230,7 @@ function createVideo(remoteStream) {
     return newVideo;
 }
 
-// parameter type: String
+// Parameters: message: String, style: String
 function appendMessage(message, style = undefined) {
     const messageBoard = document.querySelector('#message-board');
     const msg = document.createElement('p');

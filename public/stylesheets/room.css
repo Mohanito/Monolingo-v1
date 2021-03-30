@@ -46,7 +46,8 @@ footer {
     }
 }
 
-@media (max-width: 768px) { 
+/* Medium >= 768px */
+@media (max-width: 767px) { 
     #waiting-for-user {
         height: 261px;
     }
