@@ -1,17 +1,29 @@
-body {
-    font-family: 'Raleway', sans-serif;
+#video-list {
+    padding-left: 10px; 
+    padding-right: 0px;
 }
 
+video {
+    background-color: black; 
+    width: 100%; 
+    height: auto;
+}
+
+/* Username - Speaks Language (for every user) */
 .title-overlay {
     background-color: rgba(0, 0, 0, 0.5); 
     position: relative; 
     width: 100%;
 }
 
-.waiting-for-user {
-    /* background: #3E5151;
-    background: -webkit-linear-gradient(to left, #DECBA4, #3E5151);
-    background: linear-gradient(to left, #DECBA4, #3E5151);  */
+/* Subtitle for current user only */
+#subtitle {
+    position: absolute; 
+    bottom: 0; 
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#waiting-for-user {
     background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
     url('https://cdn.pixabay.com/photo/2017/08/06/09/29/bokeh-2590658_1280.jpg');
     background-size: cover;
@@ -22,5 +34,6 @@ body {
 }
 
 footer {
-    background: rgba(0, 0, 0, 0.5);
+    min-height: 10vh;
+    background: rgba(0, 0, 0, 0.3);
 }

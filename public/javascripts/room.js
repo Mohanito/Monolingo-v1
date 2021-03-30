@@ -135,7 +135,7 @@ navigator.mediaDevices.getUserMedia({
 
         socket.on('user-connected', (username, language, peerId) => {
             // console.log(`Socket.io: ${username} (peerId: ${peerId}) has joined the room`);
-            appendMessage(`${username} joined the room!`);
+            appendMessage(`${username} joined the room!`, 'text-success');
             updatePeerInfo(username, language, peerId);
             socket.emit('send-info', myUsername, myLanguage, myPeerId);
             callNewUser(peerId, stream);
@@ -178,7 +178,7 @@ socket.on('broadcast-message', async (username, message, fromLanguage) => {
 
 socket.on('user-disconnected', (username, peerId) => {
     // console.log(`Socket.io: ${username} (peerId: ${peerId}) left.`)
-    appendMessage(`${username} left.`);
+    appendMessage(`${username} left.`, 'text-success');
     if (peerCalls[peerId])
         peerCalls[peerId].close();
 });
@@ -238,15 +238,16 @@ function createVideo(remoteStream) {
     const newVideo = document.createElement('video');
     newVideo.srcObject = remoteStream;
     newVideo.autoplay = true;
-    newVideo.setAttribute('style', 'width: 100%; height: auto');
     return newVideo;
 }
 
 // parameter type: String
-function appendMessage(message) {
+function appendMessage(message, style = undefined) {
     const messageBoard = document.querySelector('#message-board');
     const msg = document.createElement('p');
     msg.textContent = message;
+    if (style)
+        msg.setAttribute('class', style)
     messageBoard.append(msg);
     messageBoard.scrollTop = messageBoard.scrollHeight; // auto scroll
 }
