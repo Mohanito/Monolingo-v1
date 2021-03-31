@@ -19,7 +19,7 @@
         <div class="col-md-8 offset-md-1" style="padding-top: 25vh;">
             <h1>Welcome to <span class="text-success">Monolingo</span></h1>
             <h3 class="my-3">A free video conferencing application with simple, real-time translation</h3>
-            <p class="lead">Start using now! No registration required!</p>
+            <p class="lead">Start using now! No registration required.</p>
             <a href="/room/new" class="btn btn-lg btn-outline-success">Create a Room</a>
         </div>
         <div class="col-md-4 offset-md-1 mt-3">
@@ -28,43 +28,61 @@
             <button id="join-room" class="btn btn-lg btn-outline-success">Join Room</button>
         </div>
     </main>
-    <div class="d-flex flex-column container text-center" style="min-height: 40vh">
-        <h3 class="my-5">Learning a second language could be painful. And that's why <span
-                class="text-success">Monolingo</span> exists!</h3>
-        <div class="col-md-8 offset-md-2">
-            <h5>
-                Monolingo helps you communicate with people around the world, using ONLY your mother language.
-                Monolingo currently supports 29 languages, and provides 67 different voices for simultaneous
-                interpretation.
-            </h5>
-        </div>
 
-    </div>
-    <div class="d-flex container-fluid text-center mb-5" style="min-height: 50vh">
+    <section class="d-flex flex-column container text-center mb-3" style="min-height: 30vh">
+        <h3 class="mt-5 mb-3">Learning a second language could be painful. And that's why <span
+                class="text-success">Monolingo</span> exists!</h3>
+        <h5 class="text-muted mb-3">
+            Monolingo helps you communicate with people around the world, using ONLY your mother language.
+            This project currently supports 29 languages, and provides 67 different voices for simultaneous
+            interpretation.
+        </h5>
+    </section>
+
+    <section class="d-flex container-fluid" style="min-height: 50vh">
         <div class="row">
-            <div class="col-md-8">
-                <div class="card shadow h-100">
-                    <h4>Image Placeholder</h4>
+            <div class="col-md-6 col-lg-8 mb-3">
+                <div class="card shadow">
+                    <img class="w-100" src="/images/chatroom-preview.png" alt="Chatroom preview">
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow h-100">
-                    <h4>View this project on<a href="https://github.com/Mohanito/Monolingo">
-                        Github <ion-icon name="logo-github"></ion-icon>
-                </a></h4>
-                    <p>The design of this project mainly consists of 3 parts: Video chat using Webrtc & Peer.js,
-                        speech-to-text and text-to-speech using Web Speech API, and text translation with Google Translate
-                        API. The project
-                        currently supports Chrome only due to limitations of Web Speech API; please see
-                        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#browser_compatibility">
-                            Web Speech API compatibility table</a>
-                        for more details.
-                    </p>
-                    <p>Designed by <a href="https://github.com/Mohanito">Mohan Li</a></p>
+            <div class="col mb-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4 class="card-title">About This Project</h4>
+                        <p class="text-warning">Note: The project
+                            currently supports Chrome only due to limitations of Web Speech API; please see
+                            <a
+                                href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#browser_compatibility">
+                                Web Speech API compatibility table
+                            </a>
+                            for more details.
+                        </p>
+                        <p>The design of this project mainly consists of 3 parts:
+                            <li>
+                                Peer-to-peer media stream connection with <a href="peerjs.com">Peer.js</a> (Webrtc)
+                            </li>
+                            <li>
+                                Speech-to-text and text-to-speech using
+                                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API">Web Speech
+                                    API</a>
+                            </li>
+                            <li>
+                                Text translation with
+                                <a href="https://www.npmjs.com/package/translate">this</a>
+                                translation package (currently using Libre engine because it's FREE).
+                            </li>
+                        </p>
+                        <h4>View this project on<a href="https://github.com/Mohanito/Monolingo">
+                                Github <ion-icon name="logo-github"></ion-icon>
+                            </a></h4>
+                        <p>Made by <a href="https://github.com/Mohanito">Mohan Li.</a></p>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <footer class="footer d-flex align-items-center mt-auto" style="height: 10vh">
         <div class="container">
@@ -75,13 +93,7 @@
     </footer>
 
     <link rel="stylesheet" href="stylesheets/home.css">
-    <script>
-        document.querySelector('#join-room').addEventListener('click', () => {
-            if (document.querySelector('#room-id').value) {
-                window.location.href = `/room/${document.querySelector('#room-id').value}`;
-            }
-        });
-    </script>
+    <script src="/javascripts/home.js"></script>
 
 </body>
 
