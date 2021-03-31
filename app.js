@@ -89,6 +89,11 @@ app.post('/translate', async (req, res) => {
     res.send(text);
 })
 
+// Error Handling
+app.all('*', (req, res) => {
+    res.status(400).render('error');
+})
+
 server.listen('3000', () => {
     console.log('Listening on port 3000...')
 });
