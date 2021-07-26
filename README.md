@@ -19,4 +19,4 @@ The design of this project mainly consists of 3 parts:
 
 ![preview][img]
 
-[img]: https://github.com/Mohanito/Monolingo/blob/fe8bdfcc024da20c9339d2713ed817c42eadbe9f/public/images/chatroom-preview.png
+[img]: https://github.com/Mohanito/Monolingo-v1/blob/main/public/images/chatroom-preview.png
